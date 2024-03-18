@@ -1,0 +1,47 @@
+syntax = "proto3";
+package aggregator;
+option go_package = "../../aggregator/interface";
+
+service AggregatorService {
+  rpc GetSmtMerkleProof(SmtMerkleProofRequest) returns (SmtMerkleProofResponse) {}
+}
+
+///////////////////
+// Request messages
+///////////////////
+
+/**
+ * @dev Request GetSmtMerkleProof
+ * @param {hash} - proof identifier of the proof request
+ */
+message SmtMerkleProofRequest {
+  string hash = 1;
+}
+
+/////////////////////
+// Responses messages
+/////////////////////
+
+/**
+ * @dev Result
+ *  - OK: succesfully completed
+ *  - ERROR: request is not correct, i.e. input data is wrong
+ *  - INTERNAL_ERROR: internal server error when delivering the response
+ */
+enum Result {
+  RESULT_OK = 0;
+  RESULT_ERROR = 1;
+  RESULT_INTERNAL_ERROR = 2;
+}
+
+/**
+ * @dev Response GetSmtMerkleProof
+ * @param {hash} - proof identifier of the proof request
+ * @param {proof} - proof
+ * @param {result} - Result
+ */
+message SmtMerkleProofResponse {
+  string hash = 1;
+  string proof = 2;
+  Result result = 3;
+}
